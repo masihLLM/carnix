@@ -7,20 +7,24 @@ import (
     "net/http"
 )
 
+import (
+    "time"
+)
+
 type Item struct {
-    ID                   string `json:"_id"`
-    Title                string `json:"title"`
-    URL                  string `json:"url"`
-    CompanyName          string `json:"companyName"`
-    FundRaiseAmount      int64  `json:"fundRaiseAmount"`
-    RaisedFundAmount     int64  `json:"raisedFundAmount"`
-    InvestorsCount       int    `json:"investorsCount"`
-    ExpectedReturnRate   int    `json:"expectedReturnRate"`
-    CollateralType       string `json:"collateralType"`
-    Duration             string `json:"duration"`
-    FundRaisingEndDate   string `json:"fundRaisingEndDate"`
-    BannerURL            string `json:"bannerURL"`
-    Platform             Platform `json:"platform"`
+    ID                   string    `json:"_id"`
+    Title                string    `json:"title"`
+    URL                  string    `json:"url"`
+    CompanyName          string    `json:"companyName"`
+    FundRaiseAmount      int64     `json:"fundRaiseAmount"`
+    RaisedFundAmount     int64     `json:"raisedFundAmount"`
+    InvestorsCount       int       `json:"investorsCount"`
+    ExpectedReturnRate   float64   `json:"expectedReturnRate"`
+    CollateralType       string    `json:"collateralType"`
+    Duration             string    `json:"duration"`
+    FundRaisingEndDate   time.Time `json:"fundRaisingEndDate"`
+    BannerURL            string    `json:"bannerURL"`
+    Platform             Platform  `json:"platform"`
 }
 
 type Platform struct {
@@ -36,7 +40,7 @@ type Response struct {
     Total int    `json:"total"`
 }
 
-func FetchData(url string) ([]Item, error) {
+func    FetchData(url string) ([]Item, error) {
     resp, err := http.Get(url)
     if err != nil {
         return nil, fmt.Errorf("failed to fetch data: %w", err)
@@ -44,7 +48,7 @@ func FetchData(url string) ([]Item, error) {
     defer resp.Body.Close()
 
     body, err := ioutil.ReadAll(resp.Body)
-    fmt.Println(string(body))
+    // fmt.Println(string(body))
     if err != nil {
         return nil, fmt.Errorf("failed to read response body: %w", err)
     }
